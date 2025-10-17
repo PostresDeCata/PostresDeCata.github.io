@@ -265,93 +265,14 @@
     .whatsapp-float img:hover {
       transform: scale(1.1);
     }
-    /* Texto y secciones fluidas */
-body {
-  font-size: 18px; /* base */
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-}
-
-/* Imágenes y videos responsivos */
-img, iframe, video {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Secciones que se apilen en móviles */
-@media (max-width: 768px) {
-  .planes {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .planes .plan {
-    width: 90%;
-    margin: 10px auto;
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-  h2, h3, h4, h5 {
-    font-size: 20px;
-  }
-}
-
-/* Ajustes para pantallas muy pequeñas */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 22px;
-  }
-  h2, h3, h4, h5 {
-    font-size: 18px;
-  }
-  .contador {
-    font-size: 16px;
-  }
-}
-
-    <style>
-  /* ... todo tu CSS igual ... */
-
-  /* Presentación personal */
-  .about-me {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    margin-top: 40px;
-  }
-  .about-me img {
-    width: 250px;
-    border: 3px solid #ff0000;
-  }
-  .about-me p {
-    font-size: 22px;
-    line-height: 1.6;
-  }
-
-  /* 👉 Ajuste para móviles: foto arriba, texto abajo */
-  @media (max-width: 768px) {
-    .about-me {
-      flex-direction: column;
-      text-align: center;
-    }
-    .about-me img {
-      margin-bottom: 20px;
-    }
-  }
-</style>
-
-
   </style>
 </head>
 <body>
 
-  <!-- Barra roja superior -->
+  <!-- Barra roja superior (✅ corregida) -->
   <div class="countdown-bar">
-    <span id="countdown-main">15:00 Aprovecha esta única oportunida</span>
+    <span id="countdown-time">15:00</span>
+    <p>Aprovecha esta única oportunidad</p>
   </div>
 
   <!-- Cronómetro flotante -->
@@ -440,11 +361,10 @@ img, iframe, video {
   <section>
     <h2>Testimonios en Video</h2>
     <div class="testimonials-videos">
-      <iframe src="https://www.youtube.com/embed/U1HP3ewZTsU?si=2XBmQ8ijFSypnSy6?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/Z-Yv0b2iWBw?si=eTb_u3LhXWnPK4Z0?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/huyOBeCVIKs?si=wFXrGrRVFBjlOqKd?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/-yzrS415Iag?si=VgrAulicaT6W9XXG?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
-
+      <iframe src="https://www.youtube.com/embed/U1HP3ewZTsU?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/Z-Yv0b2iWBw?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/huyOBeCVIKs?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/-yzrS415Iag?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -461,7 +381,7 @@ img, iframe, video {
   <script>
     // Tiempo inicial en segundos (15 minutos)
     let time = 15 * 60;
-    const countdownMain = document.getElementById("countdown-main");
+    const countdownTime = document.getElementById("countdown-time"); // ✅ actualizado
     const countdownFloat = document.getElementById("floating-countdown");
     const endTime = new Date().getTime() + (time * 1000);
 
@@ -471,7 +391,7 @@ img, iframe, video {
 
       if (distance <= 0) {
         clearInterval(interval);
-        countdownMain.innerHTML = "00:00";
+        countdownTime.innerHTML = "00:00"; // ✅ actualizado
         countdownFloat.style.display = "none"; // ocultar flotante
         return;
       }
@@ -481,7 +401,7 @@ img, iframe, video {
       seconds = seconds < 10 ? "0" + seconds : seconds;
 
       const timeText = `${minutes}:${seconds}`;
-      countdownMain.innerHTML = timeText;
+      countdownTime.innerHTML = timeText; // ✅ actualizado
       countdownFloat.innerHTML = timeText;
     }, 1000);
 
