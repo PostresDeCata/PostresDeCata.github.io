@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso de Postres de Gelatina</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-size: 20px;
+      overflow: auto; /* asegura que el scroll funcione */
+    }
+
+    /* Ocultar barras de scroll pero mantener el scroll */
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Edge y Safari */
+    }
+    body {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE y Edge antiguos */
+    }
+
+    /* Barra roja superior */
+    .countdown-bar {
+      background: #ff0000;
+      text-align: center;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+    .countdown-bar span {
+      font-size: 40px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .countdown-bar p {
+      margin: 8px 0 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: #111;
+    }
+    header h1 {
+      font-size: 40px;
+      color: #ff0000;
+      margin-top: 15px;
+    }
+    header h2 {
+      font-size: 28px;
+      margin-top: 15px;
+    }
+    header h4 {
+      font-size: 40px;
+      color: #82898F;
+    }
+    header h5 {
+      font-size: 40px;
+      color: #FFFFFF;
+    }
+    header h6 {
+      font-size: 40px;
+      color: #FF0000;
+    }
+    header h7 {
+      font-size: 28px;
+      margin-top: 15px;
+      color: #ffff00
+    }
+    .cta-btn {
+      display: flex;
+      justify-content: center; /* Centrado horizontal */
+      margin-top: 30px;
+      padding: 20px 40px;
+      background: #32CD32;
+      color: #fff;
+      font-weight: bold;
+      font-size: 24px;
+      border-radius: 8px;
+      animation: pulse 1.5s infinite;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    section h2 {
+      font-size: 38px;
+      margin-bottom: 20px;
+      color: #ffff00;
+      text-align: center;
+    }
+   
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .card {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid #ff0000;
+      font-size: 22px;
+      
+    }
+    .card h3 {
+      margin-bottom: 20px;
+      color: #ff0000;
+      font-size: 26px;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      text-align: center;
+      font-size: 34px;
+      margin: 25px 0;
+      color: #fff;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 40px auto;
+      aspect-ratio: 16 / 9;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Overlay para activar audio */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    /* Presentación personal */
+    .about-me {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .about-me img {
+      width: 250px;
+      border: 3px solid #ff0000;
+    }
+    .about-me p {
+      font-size: 22px;
+      line-height: 1.6;
+    }
+
+    /* Cronómetro flotante */
+    #floating-countdown {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #ff0000;
+      color: #fff;
+      font-weight: bold;
+      font-size: 22px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 99999;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+      animation: pulse 1.5s infinite;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      #floating-countdown { display: none; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 0, 0, 1); }
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+    }
+
+    .testimonials-videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    .testimonials-videos iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: none;
+    }
+
+    /* Sellos garantía */
+    .seals {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .seals img {
+      width: 300px;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 20px;
+      color: #fff;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin: 2px 0;
+      line-height: 1.1;
+    }
+    h6, h5 {
+      display: inline; 
+      margin: 0 5px;  
+    }
+    h2, h7 {
+      display: inline; 
+      margin: 0 5px;  
+    }
+
+    /* Botón flotante de WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+    }
+    .whatsapp-float img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .whatsapp-float img:hover {
+      transform: scale(1.1);
+    }
+    /* Texto y secciones fluidas */
+body {
+  font-size: 18px; /* base */
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Imágenes y videos responsivos */
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Secciones que se apilen en móviles */
+@media (max-width: 768px) {
+  .planes {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .planes .plan {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+  h2, h3, h4, h5 {
+    font-size: 20px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 22px;
+  }
+  h2, h3, h4, h5 {
+    font-size: 18px;
+  }
+  .contador {
+    font-size: 16px;
+  }
+}
+
+    <style>
+  /* ... todo tu CSS igual ... */
+
+  /* Presentación personal */
+  .about-me {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  .about-me img {
+    width: 250px;
+    border: 3px solid #ff0000;
+  }
+  .about-me p {
+    font-size: 22px;
+    line-height: 1.6;
+  }
+
+  /* 👉 Ajuste para móviles: foto arriba, texto abajo */
+  @media (max-width: 768px) {
+    .about-me {
+      flex-direction: column;
+      text-align: center;
+    }
+    .about-me img {
+      margin-bottom: 20px;
+    }
+  }
+</style>
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Barra roja superior -->
+  <div class="countdown-bar">
+    <span id="countdown-main">15:00</span>
+    <p>Aprovecha esta única oportunidad</p>
+  </div>
+
+  <!-- Cronómetro flotante -->
+  <div id="floating-countdown">15:00</div>
+
+  <header>
+    <h1>CREA TU PRIMERA GELATINA PERSONALIZADA</h1>  
+    <h4>(A bajo costo, fácil de vender)</h4> 
+    <h6>En 2 horas</h6>
+    <h5>TOTALMENTE EN VIVO</h5>
+
+    <!-- Video principal -->
+    <div class="video-container">
+      <div class="overlay" id="overlay">🔊 Haz clic para activar el sonido</div>
+      <iframe id="main-video" src="https://www.youtube.com/embed/R_KRvMql1Zo?autoplay=1&mute=1&loop=1&playlist=R_KRvMql1Zo&controls=0&modestbranding=1&rel=0&showinfo=0" allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <h2>Sorprende, Aprende y Emprende con gelatinas artísticas y </h2> <h7>Genera entre 200 y 500 dólares adicionales al mes</h7> <h2>desde la comodidad de tu hogar.</h2>
+  </header>
+
+  <!-- Presentación personal -->
+  <section>
+    <h2>EXPERTA EN GELATINA ARTISTICA</h2>
+    <div class="about-me">
+      <img src="https://i.imgur.com/fgL4QQa.png" alt="Tu foto">
+      <p>Hola, soy Catalina Bonilla. instructora profesional con mas de 15 años de experiencia en el arte de las gelatinas artísticas, mamá, emprendedora, tecnóloga en multimedia y técnica en pastelería. Me apasiona el arte de la gelatina artística y he ayudado a mas de 3000 personas a iniciar en este arte y convertir esta habilidad en un negocio rentable. 
+      Con mi experiencia y método paso a paso, te voy a enseñar cómo transformar tu creatividad en postres irresistibles que generan ingresos reales.
+      No te enseñare solo una técnica o una receta, también te daré mis años de experiencia para que no cometas los mismos errores que yo cometí y evites perder tiempo y dinero haciendo cosas innecesarias. </p>
+    </div>
+  </section>
+
+  <!-- Clases -->
+  <section>
+    <h2>3 clases en vivo, 100% prácticas</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Clase 1</h3>
+        <p>Conoce los insumos correctos.</p>
+        <img src="https://i.imgur.com/wdGUiAW.jpeg" alt="Clase 1">
+      </div>
+      <div class="card">
+        <h3>Clase 2</h3>
+        <p>Prepara la receta ideal para imágenes.</p>
+        <img src="https://i.imgur.com/1HDTHga.jpeg" alt="Clase 2">
+      </div>
+      <div class="card">
+        <h3>Clase 3</h3>
+        <p>Personalización del producto.</p>
+        <img src="https://i.imgur.com/rp37Y3J.jpeg" alt="Clase 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Planes -->
+  <section id="inscripcion">
+    <h2>Elige tu Plan</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Plan Básico — $10</h3>
+        <ul>
+          <li> 3 clases en vivo</li>
+          <li> Acceso a la repetición durante 2 semanas</li>
+        </ul>
+        <a class="cta-btn" href="https://hotmart.com">Comprar</a>
+      </div>
+      <div class="card">
+        <h3>Plan VIP — $40</h3>
+        <ul>
+          <li> 3 clases en vivo</li>
+          <li> Acceso ilimitado a las repeticiones</li>
+          <li> 2 encuentros extra en vivo</li>
+          <li> Recetas en PDF</li>
+          <li> Cupón de $40 para otros cursos</li>
+        </ul>
+        <a class="cta-btn" href="https://pay.hotmart.com/J100874562L?off=cvl4pi1x&checkoutMode=10">Comprar</a>
+      </div>
+    </div>
+
+    <!-- Sellos de garantía -->
+    <div class="seals">
+      <img src="https://i.imgur.com/p8FMMtM.png" alt="Sello de garantía">
+      <img src="https://solangegarcesaguilar.com/wp-content/uploads/2023/07/Plan-Alimentacion-Saludable-Garantia-de-7-dias.png" alt="Sello de calidad">
+    </div>
+  </section>
+
+  <!-- Testimonios -->
+  <section>
+    <h2>Testimonios en Video</h2>
+    <div class="testimonials-videos">
+      <iframe src="https://www.youtube.com/embed/U1HP3ewZTsU?si=2XBmQ8ijFSypnSy6?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/Z-Yv0b2iWBw?si=eTb_u3LhXWnPK4Z0?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/huyOBeCVIKs?si=wFXrGrRVFBjlOqKd?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/-yzrS415Iag?si=VgrAulicaT6W9XXG?rel=0&modestbranding=1&controls=0" allowfullscreen></iframe>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Curso de Postres de Gelatina | Todos los derechos reservados</p>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/573186958484?text=Hola%20estoy%20interesad@%20en%20participar%20en%20el%20curso%20de%20gelatina%20personalizada,%20me%20ayudas%20a%20inscribirme?" 
+   class="whatsapp-float" target="_blank">
+   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
+
+  <script>
+    // Tiempo inicial en segundos (15 minutos)
+    let time = 15 * 60;
+    const countdownMain = document.getElementById("countdown-main");
+    const countdownFloat = document.getElementById("floating-countdown");
+    const endTime = new Date().getTime() + (time * 1000);
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = endTime - now;
+
+      if (distance <= 0) {
+        clearInterval(interval);
+        countdownMain.innerHTML = "00:00";
+        countdownFloat.style.display = "none"; // ocultar flotante
+        return;
+      }
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      const timeText = `${minutes}:${seconds}`;
+      countdownMain.innerHTML = timeText;
+      countdownFloat.innerHTML = timeText;
+    }, 1000);
+
+    // Seguir al cursor
+    const floatingBox = document.getElementById("floating-countdown");
+    document.addEventListener("mousemove", (e) => {
+      floatingBox.style.top = (e.clientY + 10) + "px";
+      floatingBox.style.left = (e.clientX + 30) + "px";
+    });
+
+    // Overlay para activar audio en video
+    const overlay = document.getElementById("overlay");
+    const video = document.getElementById("main-video");
+    overlay.addEventListener("click", () => {
+      const src = video.src.replace("mute=1", "mute=0");
+      video.src = src;
+      overlay.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>
